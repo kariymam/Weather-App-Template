@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@mapbox/search-js-react": "^1.0.0",
     "axios": "^1.8.1",
     "dotenv": "^16.4.7",
     "react": "^18.3.1",
@@ -42,7 +43,8 @@
     "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.9",
-    "vite": "^5.3.4"
+    "vite": "^5.3.4",
+    "zustand": "^5.0.3"
   },
   "type": "module"
 }
