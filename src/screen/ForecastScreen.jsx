@@ -1,22 +1,36 @@
-import { userForecast } from "../store/index.js"
+import { useEffect } from "react";
+import { userForecast } from "../store/index.js";
+import { formatDate } from "../utils/utils.js";
 
-const ForecastScreen = () => {
-    const { forecastDataArray } = userForecast()
-    if (forecastDataArray.length > 0) {
-        const weeklyForecast = forecastDataArray[0].forecastData.properties.periods
-        return (
-            <div>
-            {weeklyForecast.map((item, index) => (
+const ForecastScreen = ({ props }) => {
+  const { fetchData, forecastDataArray } = userForecast();
+  useEffect(() => {
+    if (props) {
+      fetchData(props);
+    }
+  }, [props, fetchData]);
+
+  if (props && forecastDataArray.length === 1) {
+    const {
+      forecast: weeklyAPI,
+      forecastData: weeklyData,
+      forecastHourly: hourlyAPI,
+      forecastHourlyData: hourlyData,
+    } = forecastDataArray[0];
+    return (
+      <div>
+       <h3>Night</h3>
+            {weeklyData.properties.periods.filter((_, i) => i % 2 === 0).map((item, index) => (
                 <>
                     <p>{item.name}</p>
-                    <p>{item.startTime}</p>
+                    <p>{formatDate(item.startTime)}</p>
                     <p>{item.temperature}</p>
+                    <p>{item.detailedForecast}</p>
                 </>
             ))}
-    
-            </div>
-        )
-    }
-}
+      </div>
+    );
+  }
+};
 
-export default ForecastScreen
+export default ForecastScreen;
