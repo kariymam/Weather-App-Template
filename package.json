@@ -4,10 +4,11 @@
   "private": true,
   "dependencies": {
     "@mapbox/search-js-react": "^1.0.0",
-    "axios": "^1.8.1",
+    "@tailwindcss/vite": "^4.0.11",
     "dotenv": "^16.4.7",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "tailwindcss": "^4.0.11"
   },
   "scripts": {
     "dev": "vite",
@@ -34,6 +35,7 @@
     ]
   },
   "devDependencies": {
+    "@types/node": "^22.13.9",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
