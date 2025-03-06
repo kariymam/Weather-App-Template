@@ -36,3 +36,7 @@
     transform: rotate(360deg);
   }
 }
+
+mapbox-search-listbox div[role=option] :nth-child(2) div {
+  width: fit-content;
+}

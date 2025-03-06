@@ -47,7 +47,8 @@ function App() {
         value={inputValue}
         options={{
           country: 'US',
-          worldview: 'us'
+          worldview: 'us',
+          types: 'place',
         }}
         onChange={e => setInputValue(e.target.value)}
         onRetrieve={getCoordinates}
