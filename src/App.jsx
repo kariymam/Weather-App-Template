@@ -1,38 +1,42 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Geocoder } from "@mapbox/search-js-react";
 import ForecastScreen from "./screen/ForecastScreen";
+import { msg } from "./data/index"
 import "./App.css";
 
 function App() {
   const [inputValue, setInputValue] = useState('')
-  const [coordinates, setCoordinates] = useState();
+  const [coordinates, setCoordinates] = useState({});
   const [forecastProperties, setForecastProperties] = useState()
-  const getCoordinates = async (value) => {
-    setInputValue(value.properties.full_address)
+  const [status, setStatus] = useState(msg.errors.empty);
+
+  const getCoordinates = (value) => {
     setCoordinates(value.properties.coordinates);
   };
 
   useEffect(() => {
-    const getData = async () => {
-      if (!coordinates) {
-        return
-      } else {
-        const url = `https://api.weather.gov/points/${coordinates.latitude},${coordinates.longitude}`;
-        try {
-          const res = await fetch(url);
-          if (!res.ok) {
-            throw new Error(`Response status: ${res.status}`);
+    if (coordinates.latitude && coordinates.longitude) {
+      const getData = async () => {
+          const url = `https://api.weather.gov/points/${coordinates.latitude},${coordinates.longitude}`;
+          setStatus(msg.initial.loading)
+          try {
+            const res = await fetch(url);
+            if (!res.ok) {
+              setStatus(msg.errors.server)
+              throw new Error(`Response status: ${res.status}`);
+            }
+            if (res.ok) {
+              setStatus(msg.initial.loading)
+              const json = await res.json();
+              setForecastProperties(json.properties)
+            }
+          } catch (error) {
+            setStatus(msg.errors.server)
+            console.error(error);
           }
-          if (res.ok) {
-            const json = await res.json();
-            setForecastProperties(json.properties)
-          }
-        } catch (error) {
-          console.error(error);
-        }
-      }
-    };
-    getData();
+      };
+      getData();
+    }
 
   }, [coordinates]);
 
@@ -45,13 +49,14 @@ function App() {
           country: 'US',
           worldview: 'us'
         }}
+        onChange={e => setInputValue(e.target.value)}
         onRetrieve={getCoordinates}
         accessToken={import.meta.env.VITE_GEOCODING_KEY}
       />
       <label htmlFor="start">Start date:</label>
       <input type="date" id="start" name="trip-start" />
       {/* Component here that takes forecastURL as a prop */}
-      <ForecastScreen props={forecastProperties}></ForecastScreen>
+      <ForecastScreen props={forecastProperties} msgs={status}></ForecastScreen>
     </div>
   );
 }

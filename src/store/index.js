@@ -31,7 +31,7 @@ const userForecast = create((set) => ({
         set((state) => ({ forecastDataArray: [payload] }))
 
         } catch (errors) {
-            errors.forEach((error) => console.error(error));
+            console.error(errors)
         }
     },
 }))

@@ -2,13 +2,22 @@ import { useEffect } from "react";
 import { userForecast } from "../store/index.js";
 import { formatDate } from "../utils/utils.js";
 
-const ForecastScreen = ({ props }) => {
+const ForecastScreen = ({ props, msgs }) => {
+  // const [ { errors } ] = msg
   const { fetchData, forecastDataArray } = userForecast();
   useEffect(() => {
     if (props) {
       fetchData(props);
     }
   }, [props, fetchData]);
+
+  if (!props) {
+    return (
+      <div>
+        { msgs }
+      </div>
+    )
+  } 
 
   if (props && forecastDataArray.length === 1) {
     const {
