@@ -4,7 +4,7 @@ import { formatDate, cardColor } from "../utils/utils.js";
 import Card from "../component/Card.jsx";
 
 const ForecastScreen = ({ header, props, msgs }) => {
-  const { fetchData, forecastDataArray } = userForecast();
+  const { fetchData, forecastDataArray, isLoading } = userForecast();
 
   useEffect(() => {
     if (props) {
@@ -12,18 +12,18 @@ const ForecastScreen = ({ header, props, msgs }) => {
     }
   }, [props, fetchData]);
 
-  if (!props) {
+  if ((!props && isLoading) || isLoading) {
     return <div>{msgs}</div>;
   }
 
-  if (props && forecastDataArray.length >= 1) {
+  if (props && forecastDataArray.length >= 1 && !isLoading) {
     const {
       forecast: weeklyAPI,
       forecastData: weeklyData,
       forecastHourly: hourlyAPI,
       forecastHourlyData: hourlyData,
     } = forecastDataArray[0];
-    console.log(forecastDataArray);
+    console.log(forecastDataArray)
     return (
       <>
         <h2>{header}</h2>
