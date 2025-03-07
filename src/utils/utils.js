@@ -1,6 +1,12 @@
-const formatDate = (string) => {
-    const date = new Date(string);
-    return date.toDateString();
-}
+import { DateTime } from "luxon";
 
-export { formatDate }
+const formatDate = (string) => {
+  return DateTime.fromISO(string).toFormat('LLL dd');
+};
+
+const getTime = (string) => {
+  const date = new Date(string);
+  return date.toLocaleString(DateTime.DATE_SHORT);
+};
+
+export { formatDate, getTime };
