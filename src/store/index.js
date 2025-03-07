@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 
-const userForecast = create((set) => ({
-    forecastDataArray: [],
+const userForecast = create((set, get) => ({
+    forecastDataArray: new Set(),
     isLoading: false,
     error: null,
     fetchData: async (url) => {
