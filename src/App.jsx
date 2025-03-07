@@ -17,7 +17,7 @@ function App() {
   }
 
   const getCoordinates = (value) => {
-    setInputValue(value.properties.full_address)
+    setInputValue('')
     setH1(value.properties.full_address)
     setCoordinates(value.properties.coordinates);
   };
@@ -69,6 +69,13 @@ function App() {
             country: 'US',
             worldview: 'us',
             types: 'place',
+          }}
+          theme={{
+            border:'none',
+            variables: {
+              boxShadow: 'none',
+              unit: 'min(5vw, 1em)'
+            }
           }}
           onChange={handleChange}
           onRetrieve={getCoordinates}
