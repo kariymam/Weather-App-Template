@@ -93,12 +93,12 @@ const ForecastScreen = ({ header, props, msgs }) => {
         <div className="grid gap-4 pr-4 pl-4">
           {weeklyData.properties.periods
             .filter((_, i) => i % 2 === 0)
-            .map((data, i) => (
-              <Card background={cardColor(data.temperature)}>
-                <h3>{data.temperature}</h3>
-                <p>{data.shortForecast}</p>
+            .map((day, i) => (
+              <Card background={cardColor(day.temperature)}>
+                <h3>{day.temperature}</h3>
+                <p>{day.shortForecast}</p>
                 <p>
-                  {data.name} {formatDate(data.startTime)}
+                  {day.name} {formatDate(day.startTime)}
                 </p>
               </Card>
             ))}
