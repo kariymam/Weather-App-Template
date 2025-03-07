@@ -24,13 +24,19 @@ const userForecast = create((set) => ({
                 forecastData,
                 forecastHourlyData,
             };
-
-            set({ forecastDataArray: [payload], isLoading: false }); // Update state and clear loading
+            set((state) => ({ forecastDataArray: [payload, ...state.forecastDataArray], isLoading: false })); // Update state and clear loading
         } catch (errors) {
             set({ error: errors, isLoading: false }); // Set error state and clear loading
             console.error('Fetch errors:', errors);
         }
     },
 }));
+
+/**
+ * Check for duplications:
+ * Check if the array has an object
+ * Search the array for an object with the same forecast url as url.forecast.
+ * 
+ */
 
 export { userForecast }
