@@ -4,7 +4,6 @@ const msg = {
     loading: "Loading"
   },
   errors: {
-    empty: "Nothing to see here yet",
     server: "Server error",
   },
 };

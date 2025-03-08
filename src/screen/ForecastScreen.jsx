@@ -38,8 +38,11 @@ const ForecastScreen = ({ header, props, msgs }) => {
     }
   }, [props, setData, setLoading]);
 
-  if ((!props && isLoading) || isLoading) {
-    return <div>{msgs}</div>;
+  if (!props || (!props && isLoading) || isLoading) {
+    return (
+      // Loading screen
+      <div>{msgs}</div>
+    );
   }
 
   if (props && forecastDataArray.length >= 1 && !isLoading) {

@@ -7,10 +7,10 @@ import "../App.css";
 
 function HomeScreen() {
   const [inputValue, setInputValue] = useState('')
-  const [h1, setH1] = useState('')
-  const [coordinates, setCoordinates] = useState({});
+  const [h1, setH1] = useState('Peachtree City, Georgia, USA')
+  const [coordinates, setCoordinates] = useState({ latitude: 33.748547, longitude: -84.391502});
   const [forecastProperties, setForecastProperties] = useState()
-  const [status, setStatus] = useState(msg.errors.empty);
+  const [status, setStatus] = useState(msg.initial.empty);
 
   const handleChange = (e) => {
     setInputValue(e.target.value)
@@ -83,6 +83,7 @@ function HomeScreen() {
         />
       </header>
       <ForecastScreen header={h1} props={forecastProperties} msgs={status}></ForecastScreen>
+      <footer> Credits </footer>
     </div>
   );
 }
