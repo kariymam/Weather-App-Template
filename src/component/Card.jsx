@@ -5,7 +5,7 @@ export default function Card({ children, background }) {
   return (
     <div
       className={
-        "card-border card-shadow h-full rounded-2xl overflow-hidden " +
+        "card-border card-shadow h-full w-80 rounded-xl overflow-hidden " +
         backgroundColor +
         " " +
         textColor
