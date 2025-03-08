@@ -4,13 +4,39 @@ import { formatDate, cardColor } from "../utils/utils.js";
 import Card from "../component/Card.jsx";
 
 const ForecastScreen = ({ header, props, msgs }) => {
-  const { fetchData, forecastDataArray, isLoading } = userForecast();
+  const { setData, forecastDataArray, setLoading, isLoading } = userForecast();
 
   useEffect(() => {
     if (props) {
-      fetchData(props);
+      const fetchData = async (url) => {
+        setLoading(); // Set loading state
+        try {
+            const urls = [url.forecast, url.forecastHourly];
+            const responses = await Promise.all(urls.map((url) => fetch(url)));
+            const errors = responses.filter((response) => !response.ok);
+
+            if (errors.length > 0) {
+                throw errors.map((response) => new Error(`Failed to fetch: ${response.statusText}`));
+            }
+
+            const data = await Promise.all(responses.map((response) => response.json()));
+            const [forecastData, forecastHourlyData] = data;
+
+            const payload = {
+                forecast: url.forecast,
+                forecastHourly: url.forecastHourly,
+                forecastData,
+                forecastHourlyData,
+            };
+            setData(payload); // Update state and clear loading
+        } catch (errors) {
+            setLoading(errors); // Set error state and clear loading
+            console.error('Fetch errors:', errors);
+        }
     }
-  }, [props, fetchData]);
+    fetchData(props)
+    }
+  }, [props, setData, setLoading]);
 
   if ((!props && isLoading) || isLoading) {
     return <div>{msgs}</div>;
