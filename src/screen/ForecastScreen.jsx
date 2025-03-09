@@ -2,6 +2,12 @@ import { useEffect } from "react";
 import { userForecast } from "../store/index.js";
 import { formatDate, cardColor } from "../utils/utils.js";
 import Card from "../component/Card.jsx";
+import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Grid } from "@/component/Grid.jsx";
 
@@ -25,8 +31,18 @@ const getTodaysForecast = (weeklyData) => {
 };
 
 const getHourlyForecast = (hourlyData) => {
-  return hourlyData.properties.periods.slice(0, 19)
-}
+  const arr = []
+  const periods = hourlyData.properties.periods.slice(0, 19)
+  for (const { startTime, temperature, probabilityOfPrecipitation: { percentage } } of periods) {
+    const obj = {
+      time: startTime,
+      temperature: temperature,
+      probabilityOfPrecipitation: percentage,
+    }
+    arr.push(obj)
+  }
+  return arr;
+};
 
 const ForecastScreen = ({ header, props, msgs }) => {
   const { setData, forecastDataArray, setLoading, isLoading } = userForecast();
@@ -84,8 +100,8 @@ const ForecastScreen = ({ header, props, msgs }) => {
       forecastDataArray[0];
     const weekly = getWeeklyForecast(weeklyData);
     const today = getTodaysForecast(weeklyData);
-    const hourly = getHourlyForecast(hourlyData)
-    console.log(hourly)
+    const hourly = getHourlyForecast(hourlyData);
+    console.log(hourly);
     return (
       <>
         <Grid>
