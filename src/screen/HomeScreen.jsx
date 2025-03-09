@@ -59,7 +59,7 @@ function HomeScreen() {
   }, [coordinates]);
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col">
       <header className="md:px-9">
         <NavLink to="/">
           <span className="pr-9">Weather App</span>
@@ -79,6 +79,7 @@ function HomeScreen() {
               boxShadow: "none",
               colorBackgroundActive: "var(--primary)",
               borderRadius: "1rem",
+              fontFamily: "var(--font-family)"
             },
           }}
           onChange={handleChange}
