@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { NavLink } from 'react-router-dom';
+import { NavLink } from "react-router-dom";
 import { Geocoder } from "@mapbox/search-js-react";
 import ForecastScreen from "./ForecastScreen";
 import { msg } from "../data/index";
@@ -59,9 +59,11 @@ function HomeScreen() {
   }, [coordinates]);
 
   return (
-    <div>
-      <header className="px-9">
-        <NavLink to="/"><span className="pr-9">Weather App</span></NavLink>
+    <div className="flex flex-col h-screen">
+      <header className="md:px-9">
+        <NavLink to="/">
+          <span className="pr-9">Weather App</span>
+        </NavLink>
         <Geocoder
           id="city"
           value={inputValue}
@@ -76,33 +78,49 @@ function HomeScreen() {
               unit: "min(5vw, 1em)",
               boxShadow: "none",
               colorBackgroundActive: "var(--primary)",
-              borderRadius: "1rem"
+              borderRadius: "1rem",
             },
           }}
           onChange={handleChange}
           onRetrieve={getCoordinates}
           accessToken={import.meta.env.VITE_GEOCODING_KEY}
         />
-        <nav id="contact" className="pl-9">
+        <nav id="contact" className="md:pl-9">
           <ul className="flex flex-nowrap items-end gap-4">
             <li>
-            <a href="https://github.com/kariymam/Weather-App-Template" target="_blank" rel="noreferrer">Github</a>
+              <a
+                href="https://github.com/kariymam/Weather-App-Template"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Github
+              </a>
             </li>
-            <li>
-              About
-            </li>
+            <li>About</li>
           </ul>
         </nav>
       </header>
       <hr></hr>
-      <div>
-      <ForecastScreen
-        header={h1}
-        props={forecastProperties}
-        msgs={status}
-      ></ForecastScreen>
+      <div className="h-full">
+        <ForecastScreen
+          header={h1}
+          props={forecastProperties}
+          msgs={status}
+        ></ForecastScreen>
       </div>
-      <footer className="p-9"> Credits </footer>
+      <footer className="md:px-9"> Credits</footer>
+      <div className="spectrum">
+        <div className="bg-(--color-link-water-500)"></div>
+        <div className="bg-(--color-link-water-300)"></div>
+        <div className="bg-(--color-link-water-200)"></div>
+        <div className="bg-(--color-link-water-100)"></div>
+        <div className="bg-(--color-link-water-50)"></div>
+        <div className="bg-(--color-light-apricot-50)"></div>
+        <div className="bg-(--color-light-apricot-100)"></div>
+        <div className="bg-(--color-light-apricot-200)"></div>
+        <div className="bg-(--color-light-apricot-300)"></div>
+        <div className="bg-(--color-light-apricot-500)"></div>
+      </div>
     </div>
   );
 }

@@ -3,25 +3,26 @@ import { userForecast } from "../store/index.js";
 import { formatDate, cardColor } from "../utils/utils.js";
 import Card from "../component/Card.jsx";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { Grid } from "@/component/Grid.jsx";
 
 const weeklyForecast = (weeklyData) => {
-  const [...weeklyForecast] = weeklyData.properties.periods
+  const [...weeklyForecast] = weeklyData.properties.periods;
   return {
     forecast: weeklyForecast,
-  }
-}
+  };
+};
 
 const todaysForecast = (weeklyData) => {
-  const today = weeklyData.properties.periods[0]
-  const todaysTemperature = today.temperature
-  const [ todaysTempColor, todaysTempTextColor ] = cardColor(today.temperature)
+  const today = weeklyData.properties.periods[0];
+  const todaysTemperature = today.temperature;
+  const [todaysTempColor, todaysTempTextColor] = cardColor(today.temperature);
   return {
-    forecast: today, 
+    forecast: today,
     temperature: `${todaysTemperature}F`,
     tempColor: todaysTempColor,
-    tempTextColor: todaysTempTextColor
-  }
-}
+    tempTextColor: todaysTempTextColor,
+  };
+};
 
 const ForecastScreen = ({ header, props, msgs }) => {
   const { setData, forecastDataArray, setLoading, isLoading } = userForecast();
@@ -65,34 +66,39 @@ const ForecastScreen = ({ header, props, msgs }) => {
   if (!props || (!props && isLoading) || isLoading) {
     return (
       // Loading screen
-      <div>{msgs}</div>
+      <>
+        <Grid>
+          <Grid.Left>{msgs}</Grid.Left>
+          <Grid.Right></Grid.Right>
+        </Grid>
+      </>
     );
   }
 
   if (props && forecastDataArray.length >= 1 && !isLoading) {
-
-    const {
-      forecastData: weeklyData,
-      forecastHourlyData: hourlyData,
-    } = forecastDataArray[0];
-    const weekly = weeklyForecast(weeklyData)
-    const today = todaysForecast(weeklyData)
-    console.log(today)
+    const { forecastData: weeklyData, forecastHourlyData: hourlyData } =
+      forecastDataArray[0];
+    const weekly = weeklyForecast(weeklyData);
+    const today = todaysForecast(weeklyData);
     return (
       <>
-        <div className="grid md:grid-cols-2 py-9 pl-9 gap-9 overflow-hidden">
-          <div>
+        <Grid>
+          <Grid.Left>
             <h3>{header}</h3>
             <hr className="pb-4"></hr>
-                {today.temperature} {today.forecast.detailedForecast}
-                <img src={today.forecast.icon} alt={today.forecast.shortForecast}>
-                </img>
-                Wind: {today.forecast.windSpeed}
-          </div>
-          <div>
+            {today.temperature} {today.forecast.detailedForecast}
+            <img
+              src={today.forecast.icon}
+              alt={today.forecast.shortForecast}
+            ></img>
+            Wind: {today.forecast.windSpeed}
+          </Grid.Left>
+          <Grid.Right>
             <h3>7-day forecast</h3>
             <hr className="pb-4"></hr>
-            <ScrollArea className={`w-svw md:w-full whitespace-nowrap rounded-md border`}>
+            <ScrollArea
+              className={`w-svw md:w-full whitespace-nowrap rounded-md border`}
+            >
               <div className="flex w-max h-[50vh] space-x-4 p-4">
                 {weekly.forecast
                   .filter((_, i) => i % 2 === 0)
@@ -108,8 +114,8 @@ const ForecastScreen = ({ header, props, msgs }) => {
               </div>
               <ScrollBar orientation="horizontal" />
             </ScrollArea>
-          </div>
-        </div>
+          </Grid.Right>
+        </Grid>
       </>
     );
   }

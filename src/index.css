@@ -140,3 +140,10 @@ header {
   height: max(5vw, 52px);
   align-items: center;
 }
+
+.spectrum {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: repeat(auto-fit, 1fr);
+  height: 1em;
+ }
