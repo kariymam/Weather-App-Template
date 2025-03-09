@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Chivo+Mono:ital,wght@0,100..900;1,100..900&family=Chivo:ital,wght@0,100..900;1,100..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+
 @import "tailwindcss";
 
 @plugin "tailwindcss-animate";
@@ -121,4 +123,20 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+body {
+  background-color: #f2f2f2;
+  color: inherit;
+}
+
+mapbox-search-listbox div[role="option"] :nth-child(2) div {
+  width: fit-content;
+}
+
+header {
+  display: grid;
+  grid-template-columns: auto 1fr 50% auto;
+  height: max(5vw, 52px);
+  align-items: center;
 }
