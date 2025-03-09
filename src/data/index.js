@@ -13,6 +13,7 @@ const weatherIconsList = [
     word: [
       "Clear",
       "Fair",
+      "Sunny"
     ],
     emoji: '☀️'
   },
@@ -25,7 +26,7 @@ const weatherIconsList = [
     emoji: '⛅️'
   },
   {
-    word: "Mostly Cloudy",
+    word: ["Cloudy", "Mostly Cloudy"],
     emoji: '🌥️'
   },
   {
@@ -59,4 +60,5 @@ const weatherIconsList = [
     emoji: '🌧️'
   }
 ]
-export { msg };
+
+export { msg, weatherIconsList };
