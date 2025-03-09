@@ -1,13 +1,8 @@
 import { useEffect } from "react";
 import { userForecast } from "../store/index.js";
-import { formatDate, cardColor } from "../utils/utils.js";
-import Card from "../component/Card.jsx";
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
+import { formatDate, formatTime, cardColor } from "../utils/utils.js";
+import Card from "@/component/Card.jsx";
+import HourlyForecastChart from "@/component/HourlyTempChart.jsx";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Grid } from "@/component/Grid.jsx";
 
@@ -31,15 +26,19 @@ const getTodaysForecast = (weeklyData) => {
 };
 
 const getHourlyForecast = (hourlyData) => {
-  const arr = []
-  const periods = hourlyData.properties.periods.slice(0, 19)
-  for (const { startTime, temperature, probabilityOfPrecipitation: { percentage } } of periods) {
+  const arr = [];
+  const periods = hourlyData.properties.periods.slice(0, 19);
+  for (const {
+    startTime,
+    temperature,
+    probabilityOfPrecipitation: { value: percentage },
+  } of periods) {
     const obj = {
-      time: startTime,
+      time: formatTime(startTime),
       temperature: temperature,
-      probabilityOfPrecipitation: percentage,
-    }
-    arr.push(obj)
+      precipitation: percentage,
+    };
+    arr.push(obj);
   }
   return arr;
 };
@@ -136,9 +135,14 @@ const ForecastScreen = ({ header, props, msgs }) => {
               </div>
               <ScrollBar orientation="horizontal" />
             </ScrollArea>
+          </Grid.Right>
+        </Grid>
+        <Grid>
+          <div className="col-span-2">
             <h3>Hourly forecast</h3>
             <hr className="pb-4"></hr>
-          </Grid.Right>
+            <HourlyForecastChart data={hourly}></HourlyForecastChart>
+          </div>
         </Grid>
       </>
     );

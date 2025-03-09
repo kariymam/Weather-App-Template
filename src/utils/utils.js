@@ -4,9 +4,8 @@ const formatDate = (string) => {
   return DateTime.fromISO(string).toFormat('LLL dd');
 };
 
-const getTime = (string) => {
-  const date = new Date(string);
-  return date.toLocaleString(DateTime.DATE_SHORT);
+const formatTime = (string) => {
+  return DateTime.fromISO(string).toFormat('ha');
 };
 
 const cardColor = (num) => {
@@ -72,4 +71,4 @@ const cardColor = (num) => {
     return "bg-stone-50"; // Default color
   };
 
-export { formatDate, getTime, cardColor };
+export { formatDate, formatTime, cardColor };
