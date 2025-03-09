@@ -4,6 +4,25 @@ import { formatDate, cardColor } from "../utils/utils.js";
 import Card from "../component/Card.jsx";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
+const weeklyForecast = (weeklyData) => {
+  const [...weeklyForecast] = weeklyData.properties.periods
+  return {
+    forecast: weeklyForecast,
+  }
+}
+
+const todaysForecast = (weeklyData) => {
+  const today = weeklyData.properties.periods[0]
+  const todaysTemperature = today.temperature
+  const [ todaysTempColor, todaysTempTextColor ] = cardColor(today.temperature)
+  return {
+    forecast: today, 
+    temperature: `${todaysTemperature}F`,
+    tempColor: todaysTempColor,
+    tempTextColor: todaysTempTextColor
+  }
+}
+
 const ForecastScreen = ({ header, props, msgs }) => {
   const { setData, forecastDataArray, setLoading, isLoading } = userForecast();
 
@@ -51,25 +70,31 @@ const ForecastScreen = ({ header, props, msgs }) => {
   }
 
   if (props && forecastDataArray.length >= 1 && !isLoading) {
+
     const {
-      forecast: weeklyAPI,
       forecastData: weeklyData,
-      forecastHourly: hourlyAPI,
       forecastHourlyData: hourlyData,
     } = forecastDataArray[0];
-    console.log(forecastDataArray);
+    const weekly = weeklyForecast(weeklyData)
+    const today = todaysForecast(weeklyData)
+    console.log(today)
     return (
       <>
-          <hr></hr>
-        <div className="grid md:grid-cols-2 gap-4 pr-4 pl-4">
+        <div className="grid md:grid-cols-2 py-9 pl-9 gap-9 overflow-hidden">
           <div>
-            <h2>{header}</h2>
+            <h3>{header}</h3>
+            <hr className="pb-4"></hr>
+                {today.temperature} {today.forecast.detailedForecast}
+                <img src={today.forecast.icon} alt={today.forecast.shortForecast}>
+                </img>
+                Wind: {today.forecast.windSpeed}
           </div>
           <div>
             <h3>7-day forecast</h3>
-            <ScrollArea className="w-svw md:w-full whitespace-nowrap rounded-md border">
+            <hr className="pb-4"></hr>
+            <ScrollArea className={`w-svw md:w-full whitespace-nowrap rounded-md border`}>
               <div className="flex w-max h-[50vh] space-x-4 p-4">
-                {weeklyData.properties.periods
+                {weekly.forecast
                   .filter((_, i) => i % 2 === 0)
                   .map((day, i) => (
                     <Card background={cardColor(day.temperature)}>
