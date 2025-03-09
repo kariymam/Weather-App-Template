@@ -5,14 +5,14 @@ import Card from "../component/Card.jsx";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Grid } from "@/component/Grid.jsx";
 
-const weeklyForecast = (weeklyData) => {
+const getWeeklyForecast = (weeklyData) => {
   const [...weeklyForecast] = weeklyData.properties.periods;
   return {
     forecast: weeklyForecast,
   };
 };
 
-const todaysForecast = (weeklyData) => {
+const getTodaysForecast = (weeklyData) => {
   const today = weeklyData.properties.periods[0];
   const todaysTemperature = today.temperature;
   const [todaysTempColor, todaysTempTextColor] = cardColor(today.temperature);
@@ -23,6 +23,10 @@ const todaysForecast = (weeklyData) => {
     tempTextColor: todaysTempTextColor,
   };
 };
+
+const getHourlyForecast = (hourlyData) => {
+  return hourlyData.properties.periods.slice(0, 19)
+}
 
 const ForecastScreen = ({ header, props, msgs }) => {
   const { setData, forecastDataArray, setLoading, isLoading } = userForecast();
@@ -78,8 +82,10 @@ const ForecastScreen = ({ header, props, msgs }) => {
   if (props && forecastDataArray.length >= 1 && !isLoading) {
     const { forecastData: weeklyData, forecastHourlyData: hourlyData } =
       forecastDataArray[0];
-    const weekly = weeklyForecast(weeklyData);
-    const today = todaysForecast(weeklyData);
+    const weekly = getWeeklyForecast(weeklyData);
+    const today = getTodaysForecast(weeklyData);
+    const hourly = getHourlyForecast(hourlyData)
+    console.log(hourly)
     return (
       <>
         <Grid>
@@ -114,6 +120,8 @@ const ForecastScreen = ({ header, props, msgs }) => {
               </div>
               <ScrollBar orientation="horizontal" />
             </ScrollArea>
+            <h3>Hourly forecast</h3>
+            <hr className="pb-4"></hr>
           </Grid.Right>
         </Grid>
       </>
