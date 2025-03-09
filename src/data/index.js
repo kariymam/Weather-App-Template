@@ -8,29 +8,29 @@ const msg = {
   },
 };
 
-const weatherList = [
+const weatherIconsList = [
   {
     word: [
       "Clear",
       "Fair",
     ],
-    image: ''
+    emoji: '☀️'
   },
   {
     word: "Partly Sunny",
-    image: ''
+    emoji: '🌤️'
   },
   {
     word: "Partly Cloudy",
-    image: ''
+    emoji: '⛅️'
   },
   {
     word: "Mostly Cloudy",
-    image: ''
+    emoji: '🌥️'
   },
   {
     word: "Overcast",
-    image: ''
+    emoji: '☁️'
   },
   {
     word: [
@@ -40,23 +40,23 @@ const weatherList = [
       "Light Snow",
       "Heavy Snow"
     ],
-    image: ''
+    emoji: '🌨️'
   },
   {
     word: ["Ice Pellets", "Hail", "Snow Pellets"],
-    image: ''
+    emoji: '❄️'
   },
   {
     word: "Windy",
-    image: ''
+    emoji: '🌬️'
   },
   {
     word: "Thunderstorm",
-    image: ''
+    emoji: '⛈️'
   },
   {
-    word: "Rain",
-    image: ''
+    word: ["Rain", "Rain Showers"],
+    emoji: '🌧️'
   }
 ]
 export { msg };

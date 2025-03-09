@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { userForecast } from "../store/index.js";
 import { formatDate, formatTime, cardColor } from "../utils/utils.js";
-import Card from "@/component/Card.jsx";
+import { Card } from "@/components/ui/card.jsx";
 import HourlyForecastChart from "@/component/HourlyTempChart.jsx";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Grid } from "@/component/Grid.jsx";
@@ -113,6 +113,7 @@ const ForecastScreen = ({ header, props, msgs }) => {
               alt={today.forecast.shortForecast}
             ></img>
             Wind: {today.forecast.windSpeed}
+            {today.tempColor}
           </Grid.Left>
           <Grid.Right>
             <h3>7-day forecast</h3>
@@ -123,15 +124,18 @@ const ForecastScreen = ({ header, props, msgs }) => {
               <div className="flex w-max h-[50vh] space-x-4 p-4">
                 {weekly.forecast
                   .filter((_, i) => i % 2 === 0)
-                  .map((day, i) => (
-                    <Card background={cardColor(day.temperature)}>
-                      <h3>{day.temperature}</h3>
-                      <p>{day.shortForecast}</p>
-                      <p>
-                        {day.name} {formatDate(day.startTime)}
-                      </p>
-                    </Card>
-                  ))}
+                  .map((day, i) => {
+                    const [bgColor, textColor] = cardColor(day.temperature);
+                    return (
+                      <Card className={`min-w-80 ${bgColor} ${textColor}`}>
+                        <h3>{day.temperature}</h3>
+                        <p>{day.shortForecast}</p>
+                        <p>
+                          {day.name} {formatDate(day.startTime)}
+                        </p>
+                      </Card>
+                    );
+                  })}
               </div>
               <ScrollBar orientation="horizontal" />
             </ScrollArea>
