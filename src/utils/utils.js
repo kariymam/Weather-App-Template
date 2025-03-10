@@ -73,10 +73,27 @@ const cardColor = (num) => {
 };
 
 const getWeeklyForecast = (weeklyData) => {
-  const [...weeklyForecast] = weeklyData.properties.periods;
-  return {
-    forecast: weeklyForecast,
-  };
+  const arr = []
+  const weeklyForecast = weeklyData.properties.periods;
+  for (const {
+    name,
+    startTime,
+    detailedForecast,
+    shortForecast,
+    temperature,
+    windSpeed
+  } of weeklyForecast) {
+    const obj = {
+      name: name,
+      startTime: startTime,
+      detailedForecast: detailedForecast,
+      shortForecast: shortForecast,
+      temperature: temperature,
+      windSpeed: windSpeed
+    }
+    arr.push(obj);
+  }
+  return arr
 };
 
 const getTodaysForecast = (weeklyData) => {
@@ -98,11 +115,16 @@ const getHourlyForecast = (hourlyData) => {
     startTime,
     temperature,
     probabilityOfPrecipitation: { value: percentage },
+    shortForecast,
+    windSpeed
   } of periods) {
     const obj = {
       time: formatTime(startTime),
       temperature: temperature,
       precipitation: percentage,
+      shortDesc: shortForecast,
+      icon: getWeatherIcon(shortForecast),  
+      wind: windSpeed
     };
     arr.push(obj);
   }

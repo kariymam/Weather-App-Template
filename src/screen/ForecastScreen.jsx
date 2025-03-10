@@ -71,6 +71,7 @@ const ForecastScreen = ({ header, props, msgs }) => {
     const today = getTodaysForecast(weeklyData);
     const hourly = getHourlyForecast(hourlyData);
     console.log(hourly);
+    console.log(weekly);
     return (
       <>
         <Grid>
@@ -90,21 +91,28 @@ const ForecastScreen = ({ header, props, msgs }) => {
             <h3>7-day forecast</h3>
             <hr className="pb-4"></hr>
             <ScrollArea
-              className={`w-svw md:w-full whitespace-nowrap rounded-md border`}
+              className={`w-svw md:w-full h-full whitespace-nowrap rounded-md border`}
             >
               <div className="flex w-max h-[50vh] space-x-4 p-4">
-                {weekly.forecast
+                {weekly
                   .filter((_, i) => i % 2 === 0)
-                  .map((day, i) => {
+                  .map((day) => {
                     const [bgColor, textColor] = cardColor(day.temperature);
                     return (
-                      <Card className={`min-w-80 ${bgColor} ${textColor}`}>
-                        <h3>{day.temperature}</h3>
-                        <p>{day.shortForecast}</p>
-                        <p>{getWeatherIcon(day.shortForecast)}</p>
-                        <p>
-                          {day.name} {formatDate(day.startTime)}
-                        </p>
+                      <Card className={`min-w-80 ${bgColor} ${textColor} min-h-[320px] hover:scale-105 hover:drop-shadow-xl transition-all`}>
+                        <div className="grid grid-cols-2 grid-rows-3 px-6">
+                          <header>
+                            <h3>{day.name}</h3>
+                          </header>
+                          <div className="col-span-2 m-auto text-center">
+                            <span className="text-4xl icon">{getWeatherIcon(day.shortForecast)}</span>
+                            <h3 className="temperature">{day.temperature}</h3>
+                          </div>
+                          <footer className="flex flex-col justify-end col-span-2 w-fit pb-4">
+                            <p className="break-normal">{day.shortForecast}</p>
+                            <p>{formatDate(day.startTime)}</p>
+                          </footer>
+                        </div>
                       </Card>
                     );
                   })}

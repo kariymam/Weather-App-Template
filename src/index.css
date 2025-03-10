@@ -137,7 +137,7 @@ mapbox-search-listbox div[role="option"] :nth-child(2) div {
   width: fit-content;
 }
 
-header {
+header#mainHeader {
   display: grid;
   grid-template-columns: auto 1fr 50% auto;
   height: max(5vw, 52px);
@@ -149,4 +149,12 @@ header {
   grid-auto-flow: column;
   grid-template-columns: repeat(auto-fit, 1fr);
   height: 1em;
+ }
+
+ h3.temperature {
+  font-size: max(4vw, 3em, 3rem);
+ }
+
+ span.icon {
+  line-height: 0;
  }

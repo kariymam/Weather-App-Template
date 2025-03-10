@@ -60,7 +60,7 @@ function HomeScreen() {
 
   return (
     <div className="flex flex-col">
-      <header className="md:px-9">
+      <header id="mainHeader" className="md:px-9">
         <NavLink to="/">
           <span className="pr-9">Weather App</span>
         </NavLink>
@@ -87,7 +87,7 @@ function HomeScreen() {
           accessToken={import.meta.env.VITE_GEOCODING_KEY}
         />
         <nav id="contact" className="md:pl-9">
-          <ul className="flex flex-nowrap items-end gap-4">
+          <ul className="flex flex-nowrap items-end gap-9">
             <li>
               <a
                 href="https://github.com/kariymam/Weather-App-Template"
