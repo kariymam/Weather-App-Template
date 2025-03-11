@@ -25,6 +25,16 @@ function HomeScreen() {
     setCoordinates(value.properties.coordinates);
   };
 
+  const clearSearch = (e) => {
+    setInputValue('')
+    setH1("Peachtree City, Georgia, USA")
+    setCoordinates({
+      latitude: 33.748547,
+      longitude: -84.391502,
+    })
+    e.target.value = ''
+  }
+
   useEffect(() => {
     const abortController = new AbortController();
     const { signal } = abortController;
@@ -84,6 +94,7 @@ function HomeScreen() {
           }}
           onChange={handleChange}
           onRetrieve={getCoordinates}
+          onClear={clearSearch}
           accessToken={import.meta.env.VITE_GEOCODING_KEY}
         />
         <nav id="contact" className="md:pl-9">

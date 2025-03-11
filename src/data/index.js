@@ -47,7 +47,7 @@ const weatherIconsList = [
       "Heavy Snow"
     ],
     emoji: '🌨️',
-    video: '',
+    video: 'path2tech-weather-app/j08wgjv9bapydhtkuf3c',
   },
   {
     word: ["Ice Pellets", "Hail", "Snow Pellets"],

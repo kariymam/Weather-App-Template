@@ -60,7 +60,7 @@ const ForecastScreen = ({ header, props, msgs }) => {
     }
   }, [props, setData, setLoading]);
 
-  if (!props || (!props && isLoading) || isLoading) {
+  if (!props || (!props && isLoading) || (props && isLoading)) {
     return (
       // Loading screen
       <>
@@ -76,20 +76,17 @@ const ForecastScreen = ({ header, props, msgs }) => {
     const { forecastData: weeklyData, forecastHourlyData: hourlyData } =
       forecastDataArray[0];
     const weekly = getWeeklyForecast(weeklyData);
-    const today = getTodaysForecast(hourlyData);
+    const today = getTodaysForecast(hourlyData, weekly[0].shortForecast);
     const hourly = getHourlyForecast(hourlyData);
-    console.log(hourly);
-    console.log(weekly);
-    console.log(today);
     return (
       <>
-        <div className="absolute w-screen overflow-hidden h-full -z-10">
+        <div className={`absolute w-screen overflow-hidden h-full bg-(--color-link-water-950) -z-10`}>
           <AdvancedVideo
-            className="w-fit h-full object-cover opacity-75"
+            className="w-screen h-full object-cover opacity-50"
             width="1920"
             height="1080"
             cldVid={cld
-              .video("path2tech-weather-app/d5j25mpv6fnbzf56nlu8")
+              .video(`${today.media}`)
               .quality("auto")}
             autoPlay
             loop
@@ -126,7 +123,7 @@ const ForecastScreen = ({ header, props, msgs }) => {
                     const [bgColor, textColor] = day.cardBackground;
                     return (
                       <Card
-                        className={`min-w-80 ${bgColor} ${textColor} min-h-[320px] transition-all hover:drop-shadow-sm backdrop-blur-sm`}
+                        className={`min-w-80 max-w-xs ${bgColor} ${textColor} h-full min-h-[320px] transition-all hover:drop-shadow-sm backdrop-blur-sm`}
                       >
                         <div className="grid grid-cols-2 grid-rows-3 px-6">
                           <header>
@@ -146,8 +143,8 @@ const ForecastScreen = ({ header, props, msgs }) => {
                               <h3>{weekly.filter((_, i) => i % 2 !== 0)[i].temperature} </h3>
                             </div>
                           </div>
-                          <footer className="flex flex-col justify-end col-span-2 w-fit pb-4">
-                            <p className="break-normal">{day.shortForecast}</p>
+                          <footer className="flex col-span-2">
+                            <p className="mt-auto break-words text-wrap">{day.shortForecast}</p>
                           </footer>
                         </div>
                       </Card>

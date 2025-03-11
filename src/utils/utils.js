@@ -73,7 +73,7 @@ const cardColor = (num) => {
 };
 
 const getWeeklyForecast = (weeklyData) => {
-  const arr = []
+  const arr = [];
   const weeklyForecast = weeklyData.properties.periods;
   for (const {
     name,
@@ -81,29 +81,30 @@ const getWeeklyForecast = (weeklyData) => {
     detailedForecast,
     shortForecast,
     temperature,
-    windSpeed
+    windSpeed,
   } of weeklyForecast) {
     const obj = {
       name: name,
       date: formatDate(startTime),
       detailedForecast: detailedForecast,
       shortForecast: shortForecast,
-      icon: getWeatherIcon(shortForecast),
+      icon: getWeatherIcon(shortForecast).icon,
       temperature: temperature,
       cardBackground: cardColor(temperature),
-      wind: windSpeed
-    }
+      wind: windSpeed,
+    };
     arr.push(obj);
   }
-  return arr
+  return arr;
 };
 
-const getTodaysForecast = (hourlyData) => {
+const getTodaysForecast = (hourlyData, shortForecast) => {
   const today = hourlyData.properties.periods[0];
   const todaysTemperature = today.temperature;
   const [todaysTempColor, todaysTempTextColor] = cardColor(today.temperature);
   return {
     forecast: today,
+    media: getWeatherIcon(shortForecast).cldURL,
     temperature: todaysTemperature,
     tempColor: todaysTempColor,
     tempTextColor: todaysTempTextColor,
@@ -118,15 +119,15 @@ const getHourlyForecast = (hourlyData) => {
     temperature,
     probabilityOfPrecipitation: { value: percentage },
     shortForecast,
-    windSpeed
+    windSpeed,
   } of periods) {
     const obj = {
       time: formatTime(startTime),
       temperature: temperature,
       precipitation: percentage,
       shortForecast: shortForecast,
-      icon: getWeatherIcon(shortForecast),  
-      wind: windSpeed
+      icon: getWeatherIcon(shortForecast).icon,
+      wind: windSpeed,
     };
     arr.push(obj);
   }
@@ -135,6 +136,7 @@ const getHourlyForecast = (hourlyData) => {
 
 const getWeatherIcon = (string) => {
   let icon = "" || null;
+  let cldURL = "" || null;
 
   const searchForMatch = (term) => {
     let search = `${term}*`;
@@ -142,22 +144,24 @@ const getWeatherIcon = (string) => {
     return regex.test(string);
   };
 
-  for (const { word, emoji } of weatherIconsList) {
+  for (const { word, emoji, video } of weatherIconsList) {
     if (Array.isArray(word)) {
       for (const key in word) {
         if (searchForMatch(word[key])) {
           icon = emoji;
+          cldURL = video;
         }
       }
       continue;
     } else {
       if (searchForMatch(word)) {
         icon = emoji;
+        cldURL = video;
       }
     }
   }
 
-  return icon;
+  return { icon, cldURL };
 };
 
 export {
