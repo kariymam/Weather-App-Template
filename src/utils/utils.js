@@ -85,24 +85,26 @@ const getWeeklyForecast = (weeklyData) => {
   } of weeklyForecast) {
     const obj = {
       name: name,
-      startTime: startTime,
+      date: formatDate(startTime),
       detailedForecast: detailedForecast,
       shortForecast: shortForecast,
+      icon: getWeatherIcon(shortForecast),
       temperature: temperature,
-      windSpeed: windSpeed
+      cardBackground: cardColor(temperature),
+      wind: windSpeed
     }
     arr.push(obj);
   }
   return arr
 };
 
-const getTodaysForecast = (weeklyData) => {
-  const today = weeklyData.properties.periods[0];
+const getTodaysForecast = (hourlyData) => {
+  const today = hourlyData.properties.periods[0];
   const todaysTemperature = today.temperature;
   const [todaysTempColor, todaysTempTextColor] = cardColor(today.temperature);
   return {
     forecast: today,
-    temperature: `${todaysTemperature}F`,
+    temperature: todaysTemperature,
     tempColor: todaysTempColor,
     tempTextColor: todaysTempTextColor,
   };
@@ -122,7 +124,7 @@ const getHourlyForecast = (hourlyData) => {
       time: formatTime(startTime),
       temperature: temperature,
       precipitation: percentage,
-      shortDesc: shortForecast,
+      shortForecast: shortForecast,
       icon: getWeatherIcon(shortForecast),  
       wind: windSpeed
     };

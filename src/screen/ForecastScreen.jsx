@@ -1,3 +1,5 @@
+import { Cloudinary } from "@cloudinary/url-gen";
+import { AdvancedVideo } from "@cloudinary/react";
 import { useEffect } from "react";
 import { userForecast } from "../store/index.js";
 import {
@@ -12,6 +14,12 @@ import { Card } from "@/components/ui/card.jsx";
 import HourlyForecastChart from "@/component/HourlyTempChart.jsx";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Grid } from "@/component/Grid.jsx";
+
+const cld = new Cloudinary({
+  cloud: {
+    cloudName: "dvf7zwben",
+  },
+});
 
 const ForecastScreen = ({ header, props, msgs }) => {
   const { setData, forecastDataArray, setLoading, isLoading } = userForecast();
@@ -68,49 +76,78 @@ const ForecastScreen = ({ header, props, msgs }) => {
     const { forecastData: weeklyData, forecastHourlyData: hourlyData } =
       forecastDataArray[0];
     const weekly = getWeeklyForecast(weeklyData);
-    const today = getTodaysForecast(weeklyData);
+    const today = getTodaysForecast(hourlyData);
     const hourly = getHourlyForecast(hourlyData);
     console.log(hourly);
     console.log(weekly);
+    console.log(today);
     return (
       <>
+        <div className="absolute w-screen overflow-hidden h-full -z-10">
+          <AdvancedVideo
+            className="w-fit h-full object-cover opacity-75"
+            width="1920"
+            height="1080"
+            cldVid={cld
+              .video("path2tech-weather-app/d5j25mpv6fnbzf56nlu8")
+              .quality("auto")}
+            autoPlay
+            loop
+            muted
+          />
+        </div>
         <Grid>
           <Grid.Left>
-            <h3>{header}</h3>
-            <hr className="pb-4"></hr>
-            {today.temperature} {today.forecast.detailedForecast}
-            <img
-              src={today.forecast.icon}
-              alt={today.forecast.shortForecast}
-            ></img>
-            Wind: {today.forecast.windSpeed}
-            {getWeatherIcon(today.forecast.shortForecast)}
-            {today.tempColor}
+            <h3 className="text-white">{header}</h3>
+            <hr></hr>
+            <div className="py-9">
+              <h3 className="text-7xl text-white">{today.temperature}°</h3>
+              <h4 className="text-4xl text-white">
+                {weekly[0].detailedForecast}
+              </h4>
+              <div className="text-white">
+                <h3>Weather Details</h3>
+                <a href={`${today.forecast.icon}`}>Source</a>
+              </div>
+            </div>
           </Grid.Left>
-          <Grid.Right>
-            <h3>7-day forecast</h3>
-            <hr className="pb-4"></hr>
-            <ScrollArea
-              className={`w-svw md:w-full h-full whitespace-nowrap rounded-md border`}
-            >
-              <div className="flex w-max h-[50vh] space-x-4 p-4">
+          <Grid.Right className="md:col-span-2">
+            <div>
+              <h3 className="text-white">7-day forecast</h3>
+              <hr></hr>
+            </div>
+          </Grid.Right>
+          <div className="w-screen md:translate-x-[-36px] col-span-2">
+            <ScrollArea className={`w-full h-full whitespace-nowrap`}>
+              <div className="flex items-center justify-center space-x-4 p-4 ml-5">
                 {weekly
                   .filter((_, i) => i % 2 === 0)
-                  .map((day) => {
-                    const [bgColor, textColor] = cardColor(day.temperature);
+                  .map((day, i) => {
+                    const [bgColor, textColor] = day.cardBackground;
                     return (
-                      <Card className={`min-w-80 ${bgColor} ${textColor} min-h-[320px] hover:scale-105 hover:drop-shadow-xl transition-all`}>
+                      <Card
+                        className={`min-w-80 ${bgColor} ${textColor} min-h-[320px] transition-all hover:drop-shadow-sm backdrop-blur-sm`}
+                      >
                         <div className="grid grid-cols-2 grid-rows-3 px-6">
                           <header>
-                            <h3>{day.name}</h3>
+                            <h3 className={`${i === 0 ? "font-semibold" : ""}`}>
+                              {day.name}{" "}
+                              <span className="opacity-75">| {day.date}</span>
+                            </h3>
                           </header>
                           <div className="col-span-2 m-auto text-center">
-                            <span className="text-4xl icon">{getWeatherIcon(day.shortForecast)}</span>
-                            <h3 className="temperature">{day.temperature}</h3>
+                            <span className="text-4xl icon">{day.icon}</span>
+                            <div className="flex items-center gap-4 w-full">
+                              <p>High</p>
+                              <h3 className="temperature">{day.temperature}</h3>
+                            </div>
+                            <div className="flex items-center gap-4 w-full">
+                              <p>Low</p>
+                              <h3>{weekly.filter((_, i) => i % 2 !== 0)[i].temperature} </h3>
+                            </div>
                           </div>
                           <footer className="flex flex-col justify-end col-span-2 w-fit pb-4">
                             <p className="break-normal">{day.shortForecast}</p>
-                            <p>{formatDate(day.startTime)}</p>
                           </footer>
                         </div>
                       </Card>
@@ -119,13 +156,15 @@ const ForecastScreen = ({ header, props, msgs }) => {
               </div>
               <ScrollBar orientation="horizontal" />
             </ScrollArea>
-          </Grid.Right>
+          </div>
         </Grid>
         <Grid>
           <div className="col-span-2">
             <h3>Hourly forecast</h3>
-            <hr className="pb-4"></hr>
-            <HourlyForecastChart data={hourly}></HourlyForecastChart>
+            <hr></hr>
+            <Card>
+              <HourlyForecastChart data={hourly}></HourlyForecastChart>
+            </Card>
           </div>
         </Grid>
       </>

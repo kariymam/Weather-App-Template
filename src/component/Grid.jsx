@@ -2,8 +2,8 @@ export function Left({children}) {
     return <div className="px-4 mr-12 pt-9 md:pt-0 md:px-0 md:mr-0">{children}</div>
 }
 
-export function Right({children}) {
-    return <div className="px-4 md:px-0">{children}</div>
+export function Right({className, children}) {
+    return <div className={`px-4 md:px-0 ${className}`}>{children}</div>
 }
 
 export function Grid(props) {

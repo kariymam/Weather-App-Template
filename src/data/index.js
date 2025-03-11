@@ -15,23 +15,28 @@ const weatherIconsList = [
       "Fair",
       "Sunny"
     ],
-    emoji: '☀️'
+    emoji: '☀️',
+    video: 'path2tech-weather-app/qs1kgcawsbpacbetpnqr'
   },
   {
     word: "Partly Sunny",
-    emoji: '🌤️'
+    emoji: '🌤️',
+    video: 'path2tech-weather-app/d5j25mpv6fnbzf56nlu8'
   },
   {
     word: "Partly Cloudy",
-    emoji: '⛅️'
+    emoji: '⛅️',
+    video: 'path2tech-weather-app/pgnbxclkhvlbvkecezff'
   },
   {
     word: ["Cloudy", "Mostly Cloudy"],
-    emoji: '🌥️'
+    emoji: '🌥️',
+    video: 'path2tech-weather-app/tfj4qamzycive0clkyjn',
   },
   {
     word: "Overcast",
-    emoji: '☁️'
+    emoji: '☁️',
+    video: 'path2tech-weather-app/tfj4qamzycive0clkyjn',
   },
   {
     word: [
@@ -41,23 +46,28 @@ const weatherIconsList = [
       "Light Snow",
       "Heavy Snow"
     ],
-    emoji: '🌨️'
+    emoji: '🌨️',
+    video: '',
   },
   {
     word: ["Ice Pellets", "Hail", "Snow Pellets"],
-    emoji: '❄️'
+    emoji: '❄️',
+    video: '',
   },
   {
     word: "Windy",
-    emoji: '🌬️'
+    emoji: '🌬️',
+    video: '',
   },
   {
     word: "Thunderstorm",
-    emoji: '⛈️'
+    emoji: '⛈️',
+    video: 'path2tech-weather-app/wol9lxbltq6dots9rvb1',
   },
   {
     word: ["Rain", "Rain Showers"],
-    emoji: '🌧️'
+    emoji: '🌧️',
+    video: 'path2tech-weather-app/yzclvykmirfpxelruxfq'
   }
 ]
 
