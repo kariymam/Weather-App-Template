@@ -116,7 +116,7 @@ const ForecastScreen = ({ header, props, msgs }) => {
           </Grid.Right>
           <div className="w-screen md:translate-x-[-36px] col-span-2">
             <ScrollArea className={`w-full h-full whitespace-nowrap`}>
-              <div className="flex items-center justify-center space-x-4 p-4 ml-5">
+              <div id="weekday_forecast" className="flex items-center justify-center space-x-4 p-4 ml-5">
                 {weekly
                   .filter((_, i) => i % 2 === 0)
                   .map((day, i) => {

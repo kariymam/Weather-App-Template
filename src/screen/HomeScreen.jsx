@@ -5,6 +5,8 @@ import ForecastScreen from "./ForecastScreen";
 import { msg } from "../data/index";
 import "../colors.css";
 
+const MAPBOX_API_KEY =  import.meta.env.VITE_GEOCODING_KEY
+
 function HomeScreen() {
   const [inputValue, setInputValue] = useState("");
   const [h1, setH1] = useState("Peachtree City, Georgia, USA");
@@ -15,25 +17,11 @@ function HomeScreen() {
   const [forecastProperties, setForecastProperties] = useState();
   const [status, setStatus] = useState(msg.initial.empty);
 
-  const handleChange = (e) => {
-    setInputValue(e.target.value);
-  };
-
   const getCoordinates = (value) => {
     setInputValue("");
     setH1(value.properties.full_address);
     setCoordinates(value.properties.coordinates);
   };
-
-  const clearSearch = (e) => {
-    setInputValue('')
-    setH1("Peachtree City, Georgia, USA")
-    setCoordinates({
-      latitude: 33.748547,
-      longitude: -84.391502,
-    })
-    e.target.value = ''
-  }
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -87,15 +75,12 @@ function HomeScreen() {
             variables: {
               unit: "min(5vw, 1em)",
               boxShadow: "none",
-              colorBackgroundActive: "var(--primary)",
               borderRadius: "1rem",
               fontFamily: "var(--font-family)"
             },
           }}
-          onChange={handleChange}
           onRetrieve={getCoordinates}
-          onClear={clearSearch}
-          accessToken={import.meta.env.VITE_GEOCODING_KEY}
+          accessToken={MAPBOX_API_KEY}
         />
         <nav id="contact" className="md:pl-9">
           <ul className="flex flex-nowrap items-end gap-9">
