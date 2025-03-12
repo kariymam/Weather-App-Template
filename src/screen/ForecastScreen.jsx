@@ -3,9 +3,6 @@ import { AdvancedVideo } from "@cloudinary/react";
 import { useEffect } from "react";
 import { userForecast } from "../store/index.js";
 import {
-  formatDate,
-  cardColor,
-  getWeatherIcon,
   getWeeklyForecast,
   getTodaysForecast,
   getHourlyForecast,

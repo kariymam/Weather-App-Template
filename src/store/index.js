@@ -12,7 +12,7 @@ const userForecast = create((set, get) => ({
         }
     },
     setData: (payload) => {
-        set((state) => ({ forecastDataArray: [payload], isLoading: false })); // Update state and clear loading
+        set((state) => ({ forecastDataArray: [payload, state.forecastDataArray], isLoading: false })); // Update state and clear loading
     }
 }));
 
