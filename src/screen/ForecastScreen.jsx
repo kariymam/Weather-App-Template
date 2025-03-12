@@ -91,6 +91,7 @@ const ForecastScreen = ({ header, props, msgs }) => {
             autoPlay
             loop
             muted
+            playsinline
           />
         </div>
         <Grid>
