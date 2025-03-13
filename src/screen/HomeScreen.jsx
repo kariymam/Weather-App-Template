@@ -21,39 +21,6 @@ function HomeScreen() {
     setCoordinates(value.properties.coordinates);
   };
 
-  // useEffect(() => {
-  //   const abortController = new AbortController();
-  //   const { signal } = abortController;
-
-  //   if (coordinates.latitude && coordinates.longitude) {
-  //     const getData = async () => {
-  //       const url = `https://api.weather.gov/points/${coordinates.latitude},${coordinates.longitude}`;
-  //       setStatus(msg.initial.loading);
-  //       try {
-  //         const res = await fetch(url, { signal });
-  //         if (!res.ok) {
-  //           setStatus(msg.errors.server);
-  //           throw new Error(`Response status: ${res.status}`);
-  //         }
-  //         if (res.ok) {
-  //           const json = await res.json();
-  //           setForecastProperties(json.properties);
-  //         }
-  //       } catch (error) {
-  //         if (error.name !== "AbortError") {
-  //           setStatus(msg.errors.server);
-  //           console.error(error);
-  //         }
-  //       }
-  //     };
-  //     getData();
-  //   }
-
-  //   return () => {
-  //     abortController.abort();
-  //   };
-  // }, [coordinates]);
-
   useEffect(() => {
     const getData = async () => {
       const json = await fetchGridData(coordinates)
