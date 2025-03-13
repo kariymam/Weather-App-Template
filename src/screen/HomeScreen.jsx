@@ -10,14 +10,13 @@ const MAPBOX_API_KEY =  import.meta.env.VITE_GEOCODING_KEY
 
 function HomeScreen() {
   const [inputValue, setInputValue] = useState("");
-  const [h1, setH1] = useState("Peachtree City, Georgia, USA");
+  const [h1, setH1] = useState();
   const [coordinates, setCoordinates] = useState({});
   const [forecastProperties, setForecastProperties] = useState();
   const [status, setStatus] = useState(msg.initial.empty);
 
   const getCoordinates = (value) => {
     setInputValue("");
-    setH1(value.properties.full_address);
     setCoordinates(value.properties.coordinates);
   };
 
@@ -25,6 +24,9 @@ function HomeScreen() {
     const getData = async () => {
       const json = await fetchGridData(coordinates)
       setForecastProperties(json.properties)
+      const city = json.properties.relativeLocation.properties.city
+      const state = json.properties.relativeLocation.properties.state
+      setH1(`${city}, ${state}`)
     }
     getData()
   }, [coordinates])
