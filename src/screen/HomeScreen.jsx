@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { fetchGridData } from "../weather.service"
 import { NavLink } from "react-router-dom";
 import { Geocoder } from "@mapbox/search-js-react";
 import ForecastScreen from "./ForecastScreen";
@@ -10,10 +11,7 @@ const MAPBOX_API_KEY =  import.meta.env.VITE_GEOCODING_KEY
 function HomeScreen() {
   const [inputValue, setInputValue] = useState("");
   const [h1, setH1] = useState("Peachtree City, Georgia, USA");
-  const [coordinates, setCoordinates] = useState({
-    latitude: 33.748547,
-    longitude: -84.391502,
-  });
+  const [coordinates, setCoordinates] = useState({});
   const [forecastProperties, setForecastProperties] = useState();
   const [status, setStatus] = useState(msg.initial.empty);
 
@@ -23,38 +21,46 @@ function HomeScreen() {
     setCoordinates(value.properties.coordinates);
   };
 
+  // useEffect(() => {
+  //   const abortController = new AbortController();
+  //   const { signal } = abortController;
+
+  //   if (coordinates.latitude && coordinates.longitude) {
+  //     const getData = async () => {
+  //       const url = `https://api.weather.gov/points/${coordinates.latitude},${coordinates.longitude}`;
+  //       setStatus(msg.initial.loading);
+  //       try {
+  //         const res = await fetch(url, { signal });
+  //         if (!res.ok) {
+  //           setStatus(msg.errors.server);
+  //           throw new Error(`Response status: ${res.status}`);
+  //         }
+  //         if (res.ok) {
+  //           const json = await res.json();
+  //           setForecastProperties(json.properties);
+  //         }
+  //       } catch (error) {
+  //         if (error.name !== "AbortError") {
+  //           setStatus(msg.errors.server);
+  //           console.error(error);
+  //         }
+  //       }
+  //     };
+  //     getData();
+  //   }
+
+  //   return () => {
+  //     abortController.abort();
+  //   };
+  // }, [coordinates]);
+
   useEffect(() => {
-    const abortController = new AbortController();
-    const { signal } = abortController;
-
-    if (coordinates.latitude && coordinates.longitude) {
-      const getData = async () => {
-        const url = `https://api.weather.gov/points/${coordinates.latitude},${coordinates.longitude}`;
-        setStatus(msg.initial.loading);
-        try {
-          const res = await fetch(url, { signal });
-          if (!res.ok) {
-            setStatus(msg.errors.server);
-            throw new Error(`Response status: ${res.status}`);
-          }
-          if (res.ok) {
-            const json = await res.json();
-            setForecastProperties(json.properties);
-          }
-        } catch (error) {
-          if (error.name !== "AbortError") {
-            setStatus(msg.errors.server);
-            console.error(error);
-          }
-        }
-      };
-      getData();
+    const getData = async () => {
+      const json = await fetchGridData(coordinates)
+      setForecastProperties(json.properties)
     }
-
-    return () => {
-      abortController.abort();
-    };
-  }, [coordinates]);
+    getData()
+  }, [coordinates])
 
   return (
     <div className="flex flex-col">

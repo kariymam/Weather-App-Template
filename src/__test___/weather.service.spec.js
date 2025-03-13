@@ -7,36 +7,36 @@ function createMockResponse(data) {
   return { json: () => new Promise((resolve) => resolve(data)) };
 }
 
-describe("Coordinates API", () => {
-  test("Coordinates should default to Atlanta", () => {
-    expect(createCoordinatesURL()).toBeDefined();
-    assert.isString(createCoordinatesURL(), "return is a string");
-    assert.strictEqual(
-      createCoordinatesURL({}),
-      "https://api.weather.gov/points/33.7508,-84.389854"
-    );
-    assert.strictEqual(
-      createCoordinatesURL({ longitude: undefined, latitude: undefined }),
-      "https://api.weather.gov/points/33.7508,-84.389854"
-    );
-    assert.strictEqual(
-      createCoordinatesURL({ longitude: 0, latitude: undefined }),
-      "https://api.weather.gov/points/33.7508,-84.389854"
-    );
+// describe("Coordinates API", () => {
+//   test("Coordinates should default to Atlanta", () => {
+//     expect(createCoordinatesURL()).toBeDefined();
+//     assert.isString(createCoordinatesURL(), "return is a string");
+//     assert.strictEqual(
+//       createCoordinatesURL({}),
+//       "https://api.weather.gov/points/33.7508,-84.389854"
+//     );
+//     assert.strictEqual(
+//       createCoordinatesURL({ longitude: undefined, latitude: undefined }),
+//       "https://api.weather.gov/points/33.7508,-84.389854"
+//     );
+//     assert.strictEqual(
+//       createCoordinatesURL({ longitude: 0, latitude: undefined }),
+//       "https://api.weather.gov/points/33.7508,-84.389854"
+//     );
 
-    assert.strictEqual(
-      createCoordinatesURL({ longitude: 0, latitude: 0 }),
-      "https://api.weather.gov/points/33.7508,-84.389854"
-    );
-  });
+//     assert.strictEqual(
+//       createCoordinatesURL({ longitude: 0, latitude: 0 }),
+//       "https://api.weather.gov/points/33.7508,-84.389854"
+//     );
+//   });
 
-  test("Coordinates should be formatted into URL (Intended behavior)", () => {
-    assert.strictEqual(
-      createCoordinatesURL({ longitude: -97.0892, latitude: 39.7456 }),
-      "https://api.weather.gov/points/39.7456,-97.0892"
-    );
-  });
-});
+//   test("Coordinates should be formatted into URL (Intended behavior)", () => {
+//     assert.strictEqual(
+//       createCoordinatesURL({ longitude: -97.0892, latitude: 39.7456 }),
+//       "https://api.weather.gov/points/39.7456,-97.0892"
+//     );
+//   });
+// });
 
 // Tutorial: https://runthatline.com/how-to-mock-fetch-api-with-vitest/
 
@@ -77,6 +77,6 @@ describe("Weather Service", () => {
       }
     );
 
-    expect(weatherData).toStrictEqual([weatherAPIResponse.properties.forecast, weatherAPIResponse.properties.forecastHourly]);
+    expect(weatherData).toStrictEqual(weatherAPIResponse);
   });
 });

@@ -4,7 +4,7 @@ const headers = {
     "user-agent": "chic-swan-8ad817.netlify.app"
 }
 
-export function createCoordinatesURL(coordinates) {
+function createCoordinatesURL(coordinates) {
   if (
     !coordinates ||
     Object.values(coordinates).includes(undefined) ||
@@ -16,11 +16,10 @@ export function createCoordinatesURL(coordinates) {
   return `${BASE_URL}${coordinates.latitude},${coordinates.longitude}`;
 }
 
-// First API Call to /points
 export async function fetchGridData(coordinates) {
     let coordinatesResponse = await fetch(createCoordinatesURL(coordinates), {
         headers
       })
     const res = await coordinatesResponse.json()
-    return [res.properties.forecast, res.properties.forecastHourly]
+    return res
 }
